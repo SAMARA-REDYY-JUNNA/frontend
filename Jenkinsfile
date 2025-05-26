@@ -38,6 +38,19 @@ pipeline {
                 """
                 }
             } 
+
+            stage('sonar scan'){
+                environment {
+                    scannerHome = tool 'sonar'
+                }
+                steps {
+                    script {
+                        withSonarQubeEnv('sonar'){
+                            sh "${scannerHome}/bin/sonar-scanner"
+                        }
+                    }
+                }
+            }
             stage('Nexus Artifact Upload') {
             steps {
                 script{
